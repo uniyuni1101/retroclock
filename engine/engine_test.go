@@ -21,8 +21,24 @@ func TestEngine_RenderingPerTick(t *testing.T) {
 		tickTimes []time.Time
 		want      int
 	}{
-		{[]time.Time{time.Now(), time.Now(), time.Now()}, 3},
-		{[]time.Time{time.Now(), time.Now(), time.Now(), time.Now(), time.Now()}, 5},
+		{
+			tickTimes: []time.Time{
+				time.Now(),
+				time.Now(),
+				time.Now(),
+			},
+			want: 3,
+		},
+		{
+			tickTimes: []time.Time{
+				time.Now(),
+				time.Now(),
+				time.Now(),
+				time.Now(),
+				time.Now(),
+			},
+			want: 5,
+		},
 	}
 
 	for _, c := range cases {
