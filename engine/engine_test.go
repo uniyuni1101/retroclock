@@ -16,6 +16,17 @@ func (r *SpyRender) Render(t time.Time) {
 	r.callRender++
 }
 
+type StubTicker struct {
+	beginTime time.Time
+	delta     time.Duration
+	tickCount int
+}
+
+func (s *StubTicker) Tick() time.Time {
+	s.tickCount++
+	return s.beginTime.Add(s.delta * time.Duration(s.tickCount))
+}
+
 func TestTicker_CollectOfTickIntervals(t *testing.T) {
 	cases := map[string]struct {
 		tick          engine.TickPerSecond
@@ -40,7 +51,7 @@ func TestTicker_CollectOfTickIntervals(t *testing.T) {
 			t2 := time.Now()
 			got := t2.Sub(t1)
 
-			assertIntervalWIthinTolerance(t, times, c.tick.Interval(), c.tick.Interval() / 20)
+			assertIntervalWIthinTolerance(t, times, c.tick.Interval(), c.tick.Interval()/20)
 			assertDurationWithinTolerance(t, got, c.totalDuration, 5*time.Millisecond)
 		})
 	}
