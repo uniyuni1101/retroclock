@@ -11,21 +11,21 @@ func TestValidate_AllExecutionOfValidations(t *testing.T) {
 	}{
 		"valid all parameter": {
 			Config{
-				TickPerSecond: 20,
+				TickRate: 20,
 				Theme:         "simple",
 			},
 			nil,
 		},
-		"invalid TickPerSecond": {
+		"invalid TickRate": {
 			Config{
-				TickPerSecond: 0,
+				TickRate: 0,
 				Theme:         "simple",
 			},
-			ErrOutOfRangeTickPerSecond,
+			ErrOutOfRangeTickRate,
 		},
 		"invalid Theme": {
 			Config{
-				TickPerSecond: 20,
+				TickRate: 20,
 				Theme:         "error",
 			},
 			ErrNotFoundTheme,
@@ -41,30 +41,30 @@ func TestValidate_AllExecutionOfValidations(t *testing.T) {
 	}
 }
 
-func TestValidateTickPerSecond(t *testing.T) {
+func TestValidateTickRate(t *testing.T) {
 	cases := map[string]struct {
 		cfg  Config
 		want error
 	}{
 		"valid value between 1 and 120 when value is 1": {
-			Config{TickPerSecond: 1}, nil,
+			Config{TickRate: 1}, nil,
 		},
 		"valid value between 1 and 120 when value is 120": {
-			Config{TickPerSecond: 120}, nil,
+			Config{TickRate: 120}, nil,
 		},
 		"invalid value less than or equal to 0": {
-			Config{TickPerSecond: 0},
-			ErrOutOfRangeTickPerSecond,
+			Config{TickRate: 0},
+			ErrOutOfRangeTickRate,
 		},
 		"invalid value greater than 120": {
-			Config{TickPerSecond: 121},
-			ErrOutOfRangeTickPerSecond,
+			Config{TickRate: 121},
+			ErrOutOfRangeTickRate,
 		},
 	}
 
 	for name, c := range cases {
 		t.Run(name, func(t *testing.T) {
-			if err := validateTickPerSecond(&c.cfg); err != c.want {
+			if err := validateTickRate(&c.cfg); err != c.want {
 				t.Errorf("got %v, want %v, config: %v", err, c.want, c.cfg)
 			}
 		})

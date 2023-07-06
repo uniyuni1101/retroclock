@@ -10,23 +10,23 @@ type Renderer interface {
 	Render(t time.Time)
 }
 
-type TickPerSecond int
+type TickRate int
 
-func (t TickPerSecond) Interval() time.Duration {
+func (t TickRate) Interval() time.Duration {
 	return time.Second / time.Duration(t)
 }
 
 type Ticker struct {
 	c             chan time.Time
-	tickPerSecond TickPerSecond
+	TickRate TickRate
 	tickTime      time.Time
 	done          chan struct{}
 }
 
-func NewTicker(tick TickPerSecond) *Ticker {
+func NewTicker(tick TickRate) *Ticker {
 	ticker := &Ticker{
 		c:             make(chan time.Time),
-		tickPerSecond: tick,
+		TickRate: tick,
 		tickTime:      time.Now(),
 	}
 	ticker.start()
@@ -42,7 +42,7 @@ func (t *Ticker) start() {
 				break Loop
 			default:
 				time.Sleep(t.when())
-				t.tickTime = t.tickTime.Add(t.tickPerSecond.Interval())
+				t.tickTime = t.tickTime.Add(t.TickRate.Interval())
 				t.c <- t.tickTime
 			}
 		}
@@ -50,7 +50,7 @@ func (t *Ticker) start() {
 }
 
 func (t *Ticker) when() time.Duration {
-	target := t.tickTime.Add(t.tickPerSecond.Interval())
+	target := t.tickTime.Add(t.TickRate.Interval())
 	return time.Until(target)
 }
 

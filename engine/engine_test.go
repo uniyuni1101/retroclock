@@ -30,7 +30,7 @@ func (s *StubTicker) Tick() time.Time {
 
 func TestTicker_CollectOfTickIntervals(t *testing.T) {
 	cases := map[string]struct {
-		tick          engine.TickPerSecond
+		tick          engine.TickRate
 		count         int
 		totalDuration time.Duration
 	}{

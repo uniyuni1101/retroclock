@@ -1,19 +1,19 @@
 package config
 
 var DefaultConfig = Config{
-	TickPerSecond: 20,
-	Theme:         "simple",
+	TickRate: 20,
+	Theme:    "simple",
 }
 
 type Config struct {
-	TickPerSecond int
-	Theme         string
+	TickRate int
+	Theme    string
 }
 
-func NewConfig(tickPerSecond int, theme string) (Config, error) {
+func NewConfig(tickRate int, theme string) (Config, error) {
 	c := &Config{
-		TickPerSecond: tickPerSecond,
-		Theme:         theme,
+		TickRate: tickRate,
+		Theme:    theme,
 	}
 
 	if err := Validate(c); err != nil {
