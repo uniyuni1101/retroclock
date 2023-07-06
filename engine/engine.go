@@ -10,6 +10,10 @@ type Renderer interface {
 	Render(t time.Time)
 }
 
+type Ticker interface {
+	Tick() time.Time
+}
+
 type TickRate int
 
 func (t TickRate) Interval() time.Duration {
@@ -62,7 +66,7 @@ func (t *TickController) Tick() time.Time {
 type Engine struct {
 	Config config.Config
 	Render Renderer
-	Ticker TickController
+	Ticker Ticker
 }
 
 func (e *Engine) Tick(t time.Time) {
