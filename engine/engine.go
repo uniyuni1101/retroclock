@@ -1,14 +1,14 @@
 package engine
 
-import "time"
+import (
+	"time"
+
+	"github.com/uniyuni1101/retroclock/config"
+)
 
 type Renderer interface {
 	Render(t time.Time)
 }
-
-const (
-	DefaultDelayMS = 50 * time.Millisecond
-)
 
 type TickPerSecond int
 
@@ -60,8 +60,8 @@ func (t *Ticker) Tick() time.Time {
 }
 
 type Engine struct {
-	DelayMS time.Duration
-	Render  Renderer
+	Config config.Config
+	Render Renderer
 }
 
 func (e *Engine) Tick(t time.Time) {

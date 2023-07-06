@@ -4,6 +4,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/uniyuni1101/retroclock/config"
 	"github.com/uniyuni1101/retroclock/engine"
 )
 
@@ -85,8 +86,8 @@ func TestEngine_RenderingPerTick(t *testing.T) {
 	for _, c := range cases {
 		spyRender := &SpyRender{}
 		engine := &engine.Engine{
-			DelayMS: engine.DefaultDelayMS,
-			Render:  spyRender,
+			Config: config.DefaultConfig,
+			Render: spyRender,
 		}
 
 		for _, time := range c.tickTimes {
