@@ -110,7 +110,7 @@ func assertDurationWithinTolerance(t *testing.T, got, want, tolerance time.Durat
 func assertIntervalWIthinTolerance(t *testing.T, got []time.Time, delta, tolerance time.Duration) {
 	t.Helper()
 
-	for i, _ := range got[:len(got)-1] {
+	for i := range got[:len(got)-1] {
 		gotDelta := got[i+1].Sub(got[i]).Abs()
 
 		if gotDelta < delta-tolerance || delta+tolerance < gotDelta {
