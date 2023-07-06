@@ -42,7 +42,7 @@ func TestTicker_CollectOfTickIntervals(t *testing.T) {
 	for name, c := range cases {
 		t.Run(name, func(t *testing.T) {
 
-			ticker := engine.NewTicker(c.tick)
+			ticker := engine.NewTickController(c.tick)
 
 			t1 := time.Now()
 			times := []time.Time{}

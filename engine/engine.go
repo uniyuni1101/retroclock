@@ -16,24 +16,24 @@ func (t TickRate) Interval() time.Duration {
 	return time.Second / time.Duration(t)
 }
 
-type Ticker struct {
-	c             chan time.Time
+type TickController struct {
+	c        chan time.Time
 	TickRate TickRate
-	tickTime      time.Time
-	done          chan struct{}
+	tickTime time.Time
+	done     chan struct{}
 }
 
-func NewTicker(tick TickRate) *Ticker {
-	ticker := &Ticker{
-		c:             make(chan time.Time),
+func NewTickController(tick TickRate) *TickController {
+	ticker := &TickController{
+		c:        make(chan time.Time),
 		TickRate: tick,
-		tickTime:      time.Now(),
+		tickTime: time.Now(),
 	}
 	ticker.start()
 	return ticker
 }
 
-func (t *Ticker) start() {
+func (t *TickController) start() {
 	go func() {
 	Loop:
 		for {
@@ -49,12 +49,12 @@ func (t *Ticker) start() {
 	}()
 }
 
-func (t *Ticker) when() time.Duration {
+func (t *TickController) when() time.Duration {
 	target := t.tickTime.Add(t.TickRate.Interval())
 	return time.Until(target)
 }
 
-func (t *Ticker) Tick() time.Time {
+func (t *TickController) Tick() time.Time {
 	tick := <-t.c
 	return tick
 }
@@ -62,6 +62,7 @@ func (t *Ticker) Tick() time.Time {
 type Engine struct {
 	Config config.Config
 	Render Renderer
+	Ticker TickController
 }
 
 func (e *Engine) Tick(t time.Time) {
