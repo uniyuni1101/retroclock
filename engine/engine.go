@@ -7,7 +7,7 @@ import (
 )
 
 type Renderer interface {
-	Render(t time.Time)
+	Display(t time.Time)
 }
 
 type Ticker interface {
@@ -70,5 +70,12 @@ type Engine struct {
 }
 
 func (e *Engine) Tick(t time.Time) {
-	e.Render.Render(t)
+	e.Render.Display(t)
+}
+
+func (e *Engine) Run() {
+	for {
+		t := e.Ticker.Tick()
+		e.Tick(t)
+	}
 }

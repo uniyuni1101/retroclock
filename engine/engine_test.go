@@ -13,7 +13,7 @@ type SpyRender struct {
 	timeStack  []time.Time
 }
 
-func (r *SpyRender) Render(t time.Time) {
+func (r *SpyRender) Display(t time.Time) {
 	r.callRender++
 }
 
